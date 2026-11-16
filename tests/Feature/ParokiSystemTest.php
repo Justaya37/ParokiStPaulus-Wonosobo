@@ -43,6 +43,10 @@ class ParokiSystemTest extends TestCase
         $homeResponse->assertSee('images/gereja-tampak-depan.jpg');
         $homeResponse->assertSee('rel="icon" type="image/png"', false);
         $homeResponse->assertSee('rel="shortcut icon"', false);
+        $homeResponse->assertSee('mobile-menu-toggle');
+        $homeResponse->assertSee('navbar-container');
+        $homeResponse->assertSee('navbar-nav');
+        $homeResponse->assertSee('topbar-container');
         $homeResponse->assertSee('PAROKI SANTO PAULUS');
         $homeResponse->assertSee('WONOSOBO');
         $homeResponse->assertSee('Akses Cepat');

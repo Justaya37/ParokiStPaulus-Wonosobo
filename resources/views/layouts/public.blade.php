@@ -7,21 +7,169 @@
     <meta name="description" content="@yield('meta_description', 'Website Resmi Paroki Santo Paulus Wonosobo - Gereja Katolik berarsitektur Joglo Pangrawit Ceblokan dan spiritualitas Goa Garba di Wonosobo.')">
     <link rel="icon" type="image/png" href="{{ asset('images/logo-paroki.png') }}">
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
-    <link rel="stylesheet" href="{{ asset('css/paroki-theme.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/paroki-theme.css') }}?v={{ file_exists(public_path('css/paroki-theme.css')) ? filemtime(public_path('css/paroki-theme.css')) : time() }}">
     <!-- Inline helpers for mobile navigation & icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* Responsive Mobile Header & Navigation Enforcement */
+        @media (max-width: 991px) {
+            .paroki-navbar {
+                position: sticky !important;
+                top: 0 !important;
+                z-index: 1000 !important;
+            }
+            .navbar-container {
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                flex-wrap: wrap !important;
+                position: relative !important;
+                padding-top: 0.6rem !important;
+                padding-bottom: 0.6rem !important;
+            }
+            .navbar-brand {
+                display: flex !important;
+                align-items: center !important;
+                gap: 0.45rem !important;
+                max-width: calc(100% - 56px) !important;
+            }
+            .navbar-brand .brand-logo {
+                height: 34px !important;
+                width: 34px !important;
+                flex-shrink: 0 !important;
+            }
+            .navbar-brand .brand-title {
+                font-size: 14.5px !important;
+                line-height: 1.15 !important;
+                white-space: nowrap !important;
+            }
+            .navbar-brand .brand-subtitle {
+                font-size: 10.5px !important;
+                letter-spacing: 0.08em !important;
+            }
+            .mobile-menu-toggle {
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                margin-left: auto !important;
+            }
+            .navbar-nav {
+                display: none !important;
+                position: absolute !important;
+                top: 100% !important;
+                left: 0 !important;
+                right: 0 !important;
+                width: 100% !important;
+                background-color: #ffffff !important;
+                border-top: 1px solid var(--color-border) !important;
+                border-bottom: 1px solid var(--color-border) !important;
+                box-shadow: 0 14px 28px rgba(53, 40, 32, 0.16), 0 4px 10px rgba(53, 40, 32, 0.08) !important;
+                padding: 0.85rem 1.25rem 1.25rem !important;
+                flex-direction: column !important;
+                align-items: stretch !important;
+                gap: 0.35rem !important;
+                max-height: calc(100vh - 75px) !important;
+                overflow-y: auto !important;
+                z-index: 9999 !important;
+            }
+            .navbar-nav.mobile-active {
+                display: flex !important;
+                animation: dropdownFade 0.2s ease forwards !important;
+            }
+            .navbar-nav .nav-link {
+                width: 100% !important;
+                display: block !important;
+                padding: 0.65rem 0.85rem !important;
+                font-size: 0.925rem !important;
+                border-radius: var(--radius-md) !important;
+                border-bottom: 1px solid rgba(221, 209, 194, 0.35) !important;
+                text-align: left !important;
+            }
+            .navbar-nav .nav-link:last-of-type {
+                border-bottom: none !important;
+            }
+            .navbar-nav .nav-dropdown {
+                width: 100% !important;
+                margin-top: 0.35rem !important;
+                position: static !important;
+            }
+            .navbar-nav .nav-dropdown-toggle {
+                width: 100% !important;
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                padding: 0.65rem 0.85rem !important;
+                font-size: 0.925rem !important;
+            }
+            .navbar-nav .nav-dropdown-menu {
+                position: static !important;
+                box-shadow: none !important;
+                border: 1px solid var(--color-border) !important;
+                margin-top: 0.4rem !important;
+                width: 100% !important;
+                border-radius: var(--radius-md) !important;
+                background-color: var(--color-surface) !important;
+                padding: 0.35rem 0 !important;
+                display: none;
+            }
+            .navbar-nav .nav-dropdown.is-open .nav-dropdown-menu {
+                display: block !important;
+            }
+            .navbar-nav .dropdown-item-paroki {
+                width: 100% !important;
+                padding: 0.65rem 0.85rem !important;
+                font-size: 0.875rem !important;
+                text-align: left !important;
+            }
+            .topbar-address {
+                display: none !important;
+            }
+            .topbar-container {
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                flex-wrap: nowrap !important;
+                gap: 0.5rem !important;
+            }
+        }
+        @media (max-width: 640px) {
+            .paroki-topbar {
+                padding: 0.3rem 0 !important;
+                font-size: 0.775rem !important;
+            }
+            .topbar-phone {
+                display: none !important;
+            }
+            .topbar-contacts {
+                display: flex !important;
+                align-items: center !important;
+                gap: 0.5rem !important;
+            }
+            .navbar-brand .brand-logo {
+                height: 32px !important;
+                width: 32px !important;
+            }
+            .navbar-brand .brand-title {
+                font-size: 13.5px !important;
+            }
+            .navbar-brand .brand-subtitle {
+                font-size: 10px !important;
+            }
+        }
+    </style>
     @stack('styles')
 </head>
 <body>
     <!-- Top Bar -->
     <div class="paroki-topbar">
-        <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
-            <div style="display: flex; gap: 1.25rem; align-items: center;">
-                <span><i class="fa-solid fa-phone" style="margin-right: 0.35rem; color: var(--color-accent);"></i> (0286) 321xxx</span>
-                <span><i class="fa-brands fa-whatsapp" style="margin-right: 0.35rem; color: #4ade80;"></i> 0812-3456-7890</span>
-                <span class="d-none-sm"><i class="fa-solid fa-location-dot" style="margin-right: 0.35rem; color: var(--color-accent);"></i> Jl. Letjen S. Parman No. 2, Wonosobo</span>
+        <div class="container topbar-container">
+            <div class="topbar-contacts">
+                <span class="topbar-phone"><i class="fa-solid fa-phone" style="margin-right: 0.35rem; color: var(--color-accent);"></i> (0286) 321xxx</span>
+                <span class="topbar-wa"><i class="fa-brands fa-whatsapp" style="margin-right: 0.35rem; color: #4ade80;"></i> 0812-3456-7890</span>
+                <span class="topbar-address"><i class="fa-solid fa-location-dot" style="margin-right: 0.35rem; color: var(--color-accent);"></i> Jl. Letjen S. Parman No. 2, Wonosobo</span>
             </div>
-            <div>
+            <div class="topbar-auth">
                 @auth
                     <a href="{{ route('dashboard.index') }}" style="font-weight: 600;"><i class="fa-solid fa-gauge-high"></i> Dashboard ({{ auth()->user()->role->display_name ?? 'Staf' }})</a>
                 @else
@@ -33,24 +181,24 @@
 
     <!-- Main Navigation Bar -->
     <header class="paroki-navbar">
-        <div class="container" style="display: flex; justify-content: space-between; align-items: center; padding-top: 0.75rem; padding-bottom: 0.75rem;">
+        <div class="container navbar-container">
             <!-- Brand / Logo -->
-            <a href="{{ route('public.index') }}" style="display: flex; align-items: center; gap: 0.65rem; text-decoration: none;">
-                <img src="{{ asset('images/logo-paroki.png') }}" alt="Logo Paroki Santo Paulus Wonosobo" class="rounded-full object-cover" style="height: 44px; width: 44px; padding: 0; flex-shrink: 0;">
-                <img src="{{ asset('images/logo-omk.png') }}" alt="Logo OMK Wonosobo" style="height: 44px; width: 44px; object-fit: contain; flex-shrink: 0;">
-                <div style="margin-left: 0.15rem;">
-                    <div style="font-family: var(--font-serif); font-size: 1.25rem; font-weight: 700; color: var(--color-primary); line-height: 1.1;">PAROKI SANTO PAULUS</div>
-                    <div style="font-size: 0.75rem; letter-spacing: 0.12em; color: var(--color-secondary); font-weight: 600;">WONOSOBO</div>
+            <a href="{{ route('public.index') }}" class="navbar-brand">
+                <img src="{{ asset('images/logo-paroki.png') }}" alt="Logo Paroki Santo Paulus Wonosobo" class="brand-logo rounded-full object-cover" style="padding: 0;">
+                <img src="{{ asset('images/logo-omk.png') }}" alt="Logo OMK Wonosobo" class="brand-logo" style="object-fit: contain;">
+                <div class="brand-text">
+                    <div class="brand-title">PAROKI SANTO PAULUS</div>
+                    <div class="brand-subtitle">WONOSOBO</div>
                 </div>
             </a>
 
             <!-- Mobile Menu Toggle Button -->
-            <button id="mobileMenuBtn" aria-label="Buka Menu" style="display: none; background: none; border: 1px solid var(--color-border); padding: 0.5rem 0.75rem; border-radius: var(--radius-md); font-size: 1.25rem; color: var(--color-primary); cursor: pointer;">
+            <button id="mobileMenuBtn" class="mobile-menu-toggle" aria-label="Buka Menu" aria-expanded="false">
                 <i class="fa-solid fa-bars"></i>
             </button>
 
-            <!-- Desktop Nav Links -->
-            <nav id="mainNav" style="display: flex; gap: 0.25rem; align-items: center; flex-wrap: wrap;">
+            <!-- Desktop / Mobile Nav Links -->
+            <nav id="mainNav" class="navbar-nav">
                 <a href="{{ route('public.index') }}" class="nav-link {{ request()->routeIs('public.index') ? 'active' : '' }}">Beranda</a>
                 <a href="{{ route('public.profil') }}" class="nav-link {{ request()->routeIs('public.profil') ? 'active' : '' }}">Profil & Sejarah</a>
                 <a href="{{ route('public.pastor') }}" class="nav-link {{ request()->routeIs('public.pastor') ? 'active' : '' }}">Pastor</a>
@@ -157,28 +305,40 @@
         // Responsive hamburger navigation handler
         const menuBtn = document.getElementById('mobileMenuBtn');
         const mainNav = document.getElementById('mainNav');
+        const menuIcon = menuBtn ? menuBtn.querySelector('i') : null;
 
-        function checkMobile() {
-            if (window.innerWidth <= 991) {
-                menuBtn.style.display = 'block';
-                mainNav.style.display = 'none';
-                mainNav.style.flexDirection = 'column';
-                mainNav.style.width = '100%';
-                mainNav.style.paddingTop = '1rem';
-            } else {
-                menuBtn.style.display = 'none';
-                mainNav.style.display = 'flex';
-                mainNav.style.flexDirection = 'row';
-                mainNav.style.width = 'auto';
-                mainNav.style.paddingTop = '0';
+        function toggleMobileMenu() {
+            const isOpen = mainNav.classList.toggle('mobile-active');
+            menuBtn.classList.toggle('active', isOpen);
+            menuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            if (menuIcon) {
+                if (isOpen) {
+                    menuIcon.classList.remove('fa-bars');
+                    menuIcon.classList.add('fa-xmark');
+                } else {
+                    menuIcon.classList.remove('fa-xmark');
+                    menuIcon.classList.add('fa-bars');
+                }
             }
         }
 
-        menuBtn.addEventListener('click', function() {
-            if (mainNav.style.display === 'none') {
-                mainNav.style.display = 'flex';
-            } else {
-                mainNav.style.display = 'none';
+        if (menuBtn && mainNav) {
+            menuBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleMobileMenu();
+            });
+        }
+
+        // Close mobile nav when clicking outside
+        document.addEventListener('click', function(e) {
+            if (mainNav && mainNav.classList.contains('mobile-active') && !mainNav.contains(e.target) && !menuBtn.contains(e.target)) {
+                mainNav.classList.remove('mobile-active');
+                menuBtn.classList.remove('active');
+                menuBtn.setAttribute('aria-expanded', 'false');
+                if (menuIcon) {
+                    menuIcon.classList.remove('fa-xmark');
+                    menuIcon.classList.add('fa-bars');
+                }
             }
         });
 
@@ -202,8 +362,21 @@
             });
         }
 
-        window.addEventListener('resize', checkMobile);
-        checkMobile();
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 991) {
+                if (mainNav) {
+                    mainNav.classList.remove('mobile-active');
+                }
+                if (menuBtn) {
+                    menuBtn.classList.remove('active');
+                    menuBtn.setAttribute('aria-expanded', 'false');
+                }
+                if (menuIcon) {
+                    menuIcon.classList.remove('fa-xmark');
+                    menuIcon.classList.add('fa-bars');
+                }
+            }
+        });
     </script>
     @stack('scripts')
 </body>
